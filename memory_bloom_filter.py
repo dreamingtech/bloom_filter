@@ -54,7 +54,7 @@ class BloomFilterMemory(object):
         self.max_data_size = self._cal_max_data_size()
 
         # 获取多个 hash 种子, 保存到一个列表中
-        self._hash_func_list = self.get_hash_seeds()
+        self._hash_seeds_list = self.get_hash_seeds()
 
         # 已存入 hash map 中的数据量
         self.data_saved = 0
@@ -150,11 +150,11 @@ class BloomFilterMemory(object):
 
     def get_hash_indexes(self, data):
         """
-        计算一个给定的数据 data 使用所有的 hash_funcs 得到的在 bitarray 中的索引值 / offset 值
+        计算一个给定的数据 data 使用所有的 hash_seeds 得到的在 bitarray 中的索引值 / offset 值
         """
         # 把 str 数据转换为 bytes
         data = self._safe_data(data)
-        _hash_indexes = [mmh3.hash(data, self._hash_func_list[_i]) % self.bit_num for _i in range(self.hash_seeds_num)]
+        _hash_indexes = [mmh3.hash(data, self._hash_seeds_list[_i]) % self.bit_num for _i in range(self.hash_seeds_num)]
         return _hash_indexes
 
     def add(self, data):
