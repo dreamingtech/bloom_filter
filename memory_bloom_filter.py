@@ -255,11 +255,16 @@ def main_scrapy_single_node():
     故先对本节点中的 url 种子进行一遍过滤, 能够大大的减少 redis 版布隆过滤器的压力
     """
     import time
+    # 对 1000W 数据进行去重, 误判率 十万分之一, 使用 60M 内存
+    # n = 10114610
+    # p = 0.00001 (1 in 100000)
+    # m = 480000000 (57.22MiB)
+    # k = 5
     bf = BloomFilterMemory(
         data_size_per_filter=10 ** 7,
-        memory_size=100,
+        memory_size=60,
         hash_seeds_num=5,
-        error_rate_threshold=1e-6
+        error_rate_threshold=1e-5
     )
     print('params used can reach a error_rate of <{}>'.format(bf.error_rate))
     print('params used can save <{}> data in one filter'.format(bf.max_data_size))

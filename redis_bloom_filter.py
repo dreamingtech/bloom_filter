@@ -295,9 +295,14 @@ def main_scrapy_single_node():
         redis_lock_key='bloom_filter_lock',
         password=None,
     )
+    # 对 1.4 亿条数据进行去重, 使用 500M 内存, 误判率 十万分之一
+    # n = 141834908
+    # p = 0.00001 (1 in 100000)
+    # m = 4192000000 (499.73MiB)
+    # k = 8
     bf = BloomFilterRedis(
         redis_config,
-        data_size_per_key=10 ** 8,
+        data_size_per_key=14 * 10 ** 7,
         memory_size=500,
         hash_seeds_num=8,
         error_rate_threshold=1e-5
