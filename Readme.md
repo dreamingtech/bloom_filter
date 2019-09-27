@@ -36,9 +36,8 @@
 ## todo list
 
 - [ ] redis 版布隆过滤器增加 redis_lock
-- [ ] BloomFilterRedis add redis_lock
 - [ ] 英文注释和说明
-- [ ] Add En comments and into
+- [ ] 添加日志 logging
 
 ## 参考
 
